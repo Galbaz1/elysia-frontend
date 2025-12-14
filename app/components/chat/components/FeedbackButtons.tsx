@@ -91,16 +91,12 @@ const FeedbackButtons: React.FC<FeedbackButtonsProps> = ({
 
   useEffect(() => {
     if (showFeedbackNotification) {
-      // Start fade out after 4 seconds
-      const fadeTimer = setTimeout(() => {}, 4000);
-
-      // Disable notification after fade out (7 seconds total)
+      // Disable notification after 7 seconds
       const disableTimer = setTimeout(() => {
         disableFeedbackNotification();
       }, 7000);
 
       return () => {
-        clearTimeout(fadeTimer);
         clearTimeout(disableTimer);
       };
     }

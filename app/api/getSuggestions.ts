@@ -36,7 +36,7 @@ export async function getSuggestions(
     console.error(error instanceof Error ? error.message : String(error));
     return {
       suggestions: [],
-      error: `Error fetching follow_up_suggestions!}`,
+      error: `Error fetching follow_up_suggestions!`,
     };
   } finally {
     if (process.env.NODE_ENV === "development") {
