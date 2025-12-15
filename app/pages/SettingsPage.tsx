@@ -3,8 +3,11 @@
 import React, { useContext, useEffect, useState } from "react";
 import { motion } from "framer-motion";
 import { getModels } from "../api/getModels";
+import { getProfiles } from "../api/getProfiles";
 import { SessionContext } from "../components/contexts/SessionContext";
 import { ModelProvider } from "../types/objects";
+import { Profile } from "../types/profiles";
+import { getTenantId, setTenantId, getSelectedProfileId, setSelectedProfileId } from "../lib/vsmFetch";
 
 // Custom hooks
 import { useConfigState } from "../components/configuration/hooks/useConfigState";
@@ -89,6 +92,12 @@ export default function Home() {
   } | null>(null);
   const [loadingModels, setLoadingModels] = useState<boolean>(true);
 
+  // VSM Tenant/Profile state
+  const [currentTenantId, setCurrentTenantId] = useState<string>(getTenantId());
+  const [currentProfileId, setCurrentProfileId] = useState<string | null>(getSelectedProfileId());
+  const [availableProfiles, setAvailableProfiles] = useState<Profile[]>([]);
+  const [loadingProfiles, setLoadingProfiles] = useState<boolean>(false);
+
   // Configuration validation
   const {
     currentValidation,
@@ -139,6 +148,31 @@ export default function Home() {
 
     fetchModels();
   }, []);
+
+  // Load profiles when tenant changes
+  const loadProfiles = async (tenantId: string) => {
+    if (!tenantId.trim()) return;
+
+    try {
+      setLoadingProfiles(true);
+      const profilesPayload = await getProfiles();
+      if (profilesPayload.error) {
+        console.error("Error fetching profiles:", profilesPayload.error);
+        setAvailableProfiles([]);
+      } else {
+        setAvailableProfiles(profilesPayload.profiles || []);
+      }
+    } catch (error) {
+      console.error("Failed to fetch profiles:", error);
+      setAvailableProfiles([]);
+    } finally {
+      setLoadingProfiles(false);
+    }
+  };
+
+  useEffect(() => {
+    loadProfiles(currentTenantId);
+  }, [currentTenantId]);
 
   // Helper function to handle saving configuration
   const handleSaveConfig = async (setDefault: boolean = false) => {
@@ -393,6 +427,68 @@ export default function Home() {
                     onRemoveAPIKey={removeAPIKey}
                     onOpenEnvModal={() => setIsEnvModalOpen(true)}
                   />
+
+                  {/* VSM Tenant + Profile Configuration */}
+                  <div className="bg-card rounded-lg border p-6 space-y-4">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-lg font-semibold">VSM Configuration</h3>
+                      <div className="text-sm text-muted-foreground">
+                        Tenant-scoped conversations & profiles
+                      </div>
+                    </div>
+
+                    <div className="space-y-4">
+                      {/* Tenant ID Input */}
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Tenant ID</label>
+                        <input
+                          type="text"
+                          value={currentTenantId}
+                          onChange={(e) => setCurrentTenantId(e.target.value)}
+                          onBlur={() => {
+                            if (currentTenantId.trim()) {
+                              setTenantId(currentTenantId.trim());
+                              // Reload conversations and profiles for new tenant
+                              loadProfiles(currentTenantId.trim());
+                            }
+                          }}
+                          placeholder="default"
+                          className="w-full px-3 py-2 border border-input rounded-md bg-background"
+                        />
+                        <p className="text-xs text-muted-foreground">
+                          Changing tenant will reload conversations and available profiles
+                        </p>
+                      </div>
+
+                      {/* Profile Selection */}
+                      <div className="space-y-2">
+                        <label className="text-sm font-medium">Profile</label>
+                        <select
+                          value={currentProfileId || ""}
+                          onChange={(e) => {
+                            const newProfileId = e.target.value || null;
+                            setCurrentProfileId(newProfileId);
+                            setSelectedProfileId(newProfileId);
+                          }}
+                          disabled={loadingProfiles}
+                          className="w-full px-3 py-2 border border-input rounded-md bg-background disabled:opacity-50"
+                        >
+                          <option value="">No profile selected (use defaults)</option>
+                          {availableProfiles.map((profile) => (
+                            <option key={profile.profile_id} value={profile.profile_id}>
+                              {profile.name} {profile.is_default ? "(default)" : ""}
+                            </option>
+                          ))}
+                        </select>
+                        {loadingProfiles && (
+                          <p className="text-xs text-muted-foreground">Loading profiles...</p>
+                        )}
+                        <p className="text-xs text-muted-foreground">
+                          Profile changes apply to new conversations only
+                        </p>
+                      </div>
+                    </div>
+                  </div>
                 </div>
               </div>
             ) : (

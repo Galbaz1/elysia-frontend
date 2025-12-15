@@ -34,6 +34,8 @@ import { getSuggestions } from "@/app/api/getSuggestions";
 import { deleteConversation } from "@/app/api/deleteConversation";
 import { addFeedback } from "@/app/api/addFeedback";
 import { deleteFeedback } from "@/app/api/deleteFeedback";
+import { bindConversationProfile } from "@/app/api/bindConversationProfile";
+import { getSelectedProfileId } from "@/app/lib/vsmFetch";
 import { RouterContext } from "./RouterContext";
 import { usePathname, useSearchParams } from "next/navigation";
 
@@ -85,6 +87,7 @@ export const ConversationContext = createContext<{
   setAllConversationStatuses: (status: string) => void;
   startNewConversation: () => void;
   getAllEnabledCollections: () => string[];
+  getEnabledCollectionsForConversation: (conversationId: string) => string[];
   triggerAllCollections: (conversationId: string, enable: boolean) => void;
   handleAllConversationsError: () => void;
   conversationPreviews: { [key: string]: SavedTreeData };
@@ -128,6 +131,7 @@ export const ConversationContext = createContext<{
   handleAllConversationsError: () => {},
   addSuggestionToConversation: () => {},
   getAllEnabledCollections: () => [],
+  getEnabledCollectionsForConversation: () => [],
   loadConversationsFromDB: () => {},
 });
 
@@ -278,6 +282,18 @@ export const ConversationProvider = ({
 
     const conversation_id = uuidv4();
     setCreatingNewConversation(true);
+
+    // Bind profile to conversation before initializing tree (Phase 4 requirement)
+    const selectedProfileId = getSelectedProfileId();
+    if (selectedProfileId) {
+      const bindResult = await bindConversationProfile(user_id, conversation_id, selectedProfileId);
+      if (bindResult.error) {
+        console.error("Failed to bind profile to conversation:", bindResult.error);
+        setCreatingNewConversation(false);
+        return null;
+      }
+    }
+
     const [tree] = await Promise.all([
       getDecisionTree(user_id, conversation_id),
     ]);
@@ -434,6 +450,17 @@ export const ConversationProvider = ({
         .map(([key, value]) => key);
       return [...acc, ...enabledCollectionNames];
     }, [] as string[]);
+  };
+
+  const getEnabledCollectionsForConversation = (conversationId: string): string[] => {
+    const conversation = conversations.find(c => c.id === conversationId);
+    if (!conversation) return [];
+
+    return Object.entries(conversation.enabled_collections || {})
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .filter(([key, value]) => value === true)
+      // eslint-disable-next-line @typescript-eslint/no-unused-vars
+      .map(([key, value]) => key);
   };
 
   const initializeEnabledCollections = (
@@ -975,6 +1002,7 @@ export const ConversationProvider = ({
         handleAllConversationsError,
         addSuggestionToConversation,
         getAllEnabledCollections,
+        getEnabledCollectionsForConversation,
         loadConversationsFromDB,
         handleWebsocketMessage,
         loadingConversation,
