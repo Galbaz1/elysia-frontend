@@ -1,5 +1,6 @@
 import { MetadataPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getCollectionMetadata(
   user_id: string,
@@ -7,7 +8,7 @@ export async function getCollectionMetadata(
 ): Promise<MetadataPayload> {
   const startTime = performance.now();
   try {
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/collections/${user_id}/metadata/${collection_name}`,
       {
         method: "GET",

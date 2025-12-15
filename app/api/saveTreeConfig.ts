@@ -1,6 +1,7 @@
 import { TreeConfigPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
 import { BackendConfig } from "../types/objects";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function saveTreeConfig(
   user_id: string | null | undefined,
@@ -16,7 +17,7 @@ export async function saveTreeConfig(
       };
     }
 
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/tree/config/${user_id}/${conversation_id}`,
       {
         method: "POST",

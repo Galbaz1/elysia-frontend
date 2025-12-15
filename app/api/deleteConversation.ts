@@ -1,5 +1,6 @@
 import { BasePayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function deleteConversation(
   user_id: string,
@@ -8,7 +9,7 @@ export async function deleteConversation(
   const startTime = performance.now();
   try {
     // TODO: change to DELETE once backend supports it
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/db/${user_id}/delete_tree/${conversation_id}`,
       {
         method: "DELETE",

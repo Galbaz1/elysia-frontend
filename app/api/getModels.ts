@@ -1,10 +1,11 @@
 import { ModelsPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getModels(): Promise<ModelsPayload> {
   const startTime = performance.now();
   try {
-    const response = await fetch(`${host}/user/config/models`, {
+    const response = await vsmFetch(`${host}/user/config/models`, {
       method: "GET",
       headers: {
         "Content-Type": "application/json",

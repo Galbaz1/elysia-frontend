@@ -1,10 +1,11 @@
 import { host } from "@/app/components/host";
 import { MappingTypesPayload } from "../types/payloads";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getMappingTypes(): Promise<MappingTypesPayload> {
   const startTime = performance.now();
   try {
-    const res = await fetch(`${host}/collections/mapping_types`, {
+    const res = await vsmFetch(`${host}/collections/mapping_types`, {
       method: "GET",
     });
     if (!res.ok) {

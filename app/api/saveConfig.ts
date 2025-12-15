@@ -1,6 +1,7 @@
 import { ConfigPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
 import { BackendConfig, FrontendConfig } from "../types/objects";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function saveConfig(
   user_id: string | null | undefined,
@@ -19,7 +20,7 @@ export async function saveConfig(
       };
     }
 
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/user/config/${user_id}/${backend_config.id}`,
       {
         method: "POST",

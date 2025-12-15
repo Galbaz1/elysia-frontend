@@ -1,10 +1,11 @@
 import { SavedConversationPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function loadConversations(user_id: string) {
   const startTime = performance.now();
   try {
-    const response = await fetch(`${host}/db/${user_id}/saved_trees`, {
+    const response = await vsmFetch(`${host}/db/${user_id}/saved_trees`, {
       method: "GET",
     });
 

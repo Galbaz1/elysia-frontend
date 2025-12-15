@@ -1,5 +1,6 @@
 import { host } from "@/app/components/host";
 import { FeedbackMetadata } from "@/app/components/types";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getFeedback(
   user_id: string | null | undefined
@@ -18,7 +19,7 @@ export async function getFeedback(
       };
     }
 
-    const response = await fetch(`${host}/feedback/metadata/${user_id}`, {
+    const response = await vsmFetch(`${host}/feedback/metadata/${user_id}`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

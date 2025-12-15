@@ -1,6 +1,7 @@
 import { CollectionPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
 import { Collection } from "../types/objects";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getCollections(
   user_id: string | null | undefined,
@@ -11,7 +12,7 @@ export async function getCollections(
       return [];
     }
 
-    const response = await fetch(`${host}/collections/${user_id}/list`, {
+    const response = await vsmFetch(`${host}/collections/${user_id}/list`, {
       method: "GET",
       headers: { "Content-Type": "application/json" },
     });

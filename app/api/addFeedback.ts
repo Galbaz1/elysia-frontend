@@ -1,5 +1,6 @@
 import { host } from "@/app/components/host";
 import { BasePayload } from "@/app/types/payloads";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function addFeedback(
   user_id: string | null | undefined,
@@ -15,7 +16,7 @@ export async function addFeedback(
       };
     }
 
-    const response = await fetch(`${host}/feedback/add`, {
+    const response = await vsmFetch(`${host}/feedback/add`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

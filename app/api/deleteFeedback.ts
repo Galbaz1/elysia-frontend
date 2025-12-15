@@ -1,5 +1,6 @@
 import { host } from "@/app/components/host";
 import { BasePayload } from "@/app/types/payloads";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function deleteFeedback(
   user_id: string | null | undefined,
@@ -14,7 +15,7 @@ export async function deleteFeedback(
       };
     }
 
-    const response = await fetch(`${host}/feedback/remove`, {
+    const response = await vsmFetch(`${host}/feedback/remove`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({

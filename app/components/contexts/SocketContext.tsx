@@ -6,6 +6,7 @@ import { getWebsocketHost } from "../host";
 import { useContext, useRef } from "react";
 import { ConversationContext } from "./ConversationContext";
 import { ToastContext } from "./ToastContext";
+import { getTenantId } from "@/app/lib/vsmFetch";
 
 export const SocketContext = createContext<{
   socketOnline: boolean;
@@ -131,6 +132,7 @@ export const SocketProvider = ({ children }: { children: React.ReactNode }) => {
 
     socket?.send(
       JSON.stringify({
+        tenant_id: getTenantId(),
         user_id,
         query,
         query_id,

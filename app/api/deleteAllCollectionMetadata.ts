@@ -1,12 +1,13 @@
 import { BasePayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function deleteAllCollectionMetadata(
   user_id: string
 ): Promise<BasePayload> {
   const startTime = performance.now();
   try {
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/collections/${user_id}/metadata/delete/all`,
       {
         method: "DELETE",

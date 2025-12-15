@@ -1,6 +1,7 @@
 import { DecisionTreePayload } from "@/app/types/payloads";
 import { DecisionTreeNode } from "@/app/types/objects";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function initializeTree(
   user_id: string,
@@ -9,7 +10,7 @@ export async function initializeTree(
 ): Promise<DecisionTreePayload> {
   const startTime = performance.now();
   try {
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/init/tree/${user_id}/${conversation_id}`,
       {
         method: "POST",

@@ -1,5 +1,6 @@
 import { host } from "@/app/components/host";
 import { PatchCollectionMetadataPayload } from "@/app/types/objects";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function patchCollectionMetadata(
   userId: string,
@@ -8,7 +9,7 @@ export async function patchCollectionMetadata(
 ) {
   const startTime = performance.now();
   try {
-    const res = await fetch(
+    const res = await vsmFetch(
       `${host}/collections/${userId}/metadata/${collectionName}`,
       {
         method: "PATCH",

@@ -1,5 +1,6 @@
 import { BasePayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function deleteConfig(
   user_id: string | null | undefined,
@@ -13,7 +14,7 @@ export async function deleteConfig(
       };
     }
 
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/user/config/${user_id}/${config_id}`,
       {
         method: "DELETE",

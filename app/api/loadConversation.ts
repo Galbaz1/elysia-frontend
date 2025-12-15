@@ -1,5 +1,6 @@
 import { ConversationPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function loadConversation(
   user_id: string,
@@ -7,7 +8,7 @@ export async function loadConversation(
 ) {
   const startTime = performance.now();
   try {
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/db/${user_id}/load_tree/${conversation_id}`,
       {
         method: "GET",

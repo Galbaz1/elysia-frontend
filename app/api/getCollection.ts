@@ -1,6 +1,7 @@
 import { CollectionDataPayload } from "@/app/types/payloads";
 import { Filter } from "@/app/types/objects";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getCollectionData(
   user_id: string,
@@ -17,7 +18,7 @@ export async function getCollectionData(
 
   const startTime = performance.now();
   try {
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/collections/${user_id}/view/${collection_name}`,
       {
         method: "POST",

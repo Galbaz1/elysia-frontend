@@ -1,5 +1,6 @@
 import { ConfigPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function loadConfig(
   user_id: string | null | undefined,
@@ -16,7 +17,7 @@ export async function loadConfig(
       };
     }
 
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/user/config/${user_id}/${config_id}/load`,
       {
         method: "GET",

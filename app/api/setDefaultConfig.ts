@@ -1,5 +1,6 @@
 import { BasePayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function setDefaultConfig(
   user_id: string | null | undefined,
@@ -10,7 +11,7 @@ export async function setDefaultConfig(
       return { error: "User ID is required" };
     }
 
-    const response = await fetch(`${host}/api/default_config`, {
+    const response = await vsmFetch(`${host}/api/default_config`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({ user_id }),

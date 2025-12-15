@@ -1,12 +1,13 @@
 import { UserInitPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function initializeUser(
   user_id: string
 ): Promise<UserInitPayload> {
   const startTime = performance.now();
   try {
-    const response = await fetch(`${host}/init/user/${user_id}`, {
+    const response = await vsmFetch(`${host}/init/user/${user_id}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

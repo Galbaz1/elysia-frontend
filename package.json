@@ -44,7 +44,6 @@
     "cmdk": "^1.1.1",
     "dagre": "^0.8.5",
     "embla-carousel-react": "^8.5.2",
-    "fingerprintjs": "^0.5.3",
     "floating-ui": "^5.2.8",
     "framer-motion": "^12.19.1",
     "glslify": "^7.1.1",
@@ -68,8 +67,7 @@
     "three": "^0.170.0",
     "three-stdlib": "^2.36.0",
     "typewriter-effect": "^2.21.0",
-    "uuid": "^11.0.5",
-    "uuidv4": "^6.2.13"
+    "uuid": "^11.0.5"
   },
   "devDependencies": {
     "@types/animejs": "^3.1.13",

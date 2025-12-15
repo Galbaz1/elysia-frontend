@@ -1,5 +1,6 @@
 import { CollectionDataPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getObject(
   user_id: string,
@@ -8,7 +9,7 @@ export async function getObject(
 ) {
   const startTime = performance.now();
   try {
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/collections/${user_id}/get_object/${collection_name}/${uuid}`,
       {
         method: "GET",

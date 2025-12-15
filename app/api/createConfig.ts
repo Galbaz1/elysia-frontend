@@ -1,5 +1,6 @@
 import { ConfigPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function createConfig(
   user_id: string | null | undefined
@@ -15,7 +16,7 @@ export async function createConfig(
       };
     }
 
-    const response = await fetch(`${host}/user/config/${user_id}/new`, {
+    const response = await vsmFetch(`${host}/user/config/${user_id}/new`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
     });

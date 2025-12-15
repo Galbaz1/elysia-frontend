@@ -1,5 +1,6 @@
 import { TreeConfigPayload } from "@/app/types/payloads";
 import { host } from "@/app/components/host";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getTreeConfig(
   user_id: string | null | undefined,
@@ -13,7 +14,7 @@ export async function getTreeConfig(
         config: null,
       };
     }
-    const response = await fetch(
+    const response = await vsmFetch(
       `${host}/tree/config/${user_id}/${conversation_id}`,
       {
         method: "GET",

@@ -1,5 +1,6 @@
 import { host } from "@/app/components/host";
 import { SuggestionPayload } from "@/app/types/chat";
+import { vsmFetch } from "@/app/lib/vsmFetch";
 
 export async function getSuggestions(
   user_id: string,
@@ -8,7 +9,7 @@ export async function getSuggestions(
 ) {
   const startTime = performance.now();
   try {
-    const response = await fetch(`${host}/util/follow_up_suggestions`, {
+    const response = await vsmFetch(`${host}/util/follow_up_suggestions`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
