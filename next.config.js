@@ -21,7 +21,7 @@ const nextConfig = {
 
     return config;
   },
-  // In dev mode, proxy /images to the backend (images served by FastAPI)
+  // In dev mode, proxy /images and /vsm/images to the backend (images served by FastAPI)
   async rewrites() {
     if (isStatic) {
       return []; // No rewrites in static export mode
@@ -30,6 +30,10 @@ const nextConfig = {
       {
         source: "/images/:path*",
         destination: "http://localhost:8000/images/:path*",
+      },
+      {
+        source: "/vsm/images/:path*",
+        destination: "http://localhost:8000/vsm/images/:path*",
       },
     ];
   },

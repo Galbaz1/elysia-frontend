@@ -7,7 +7,7 @@ import { SocketContext } from "../contexts/SocketContext";
 import { MdChatBubbleOutline } from "react-icons/md";
 import { GoDatabase } from "react-icons/go";
 import { AiOutlineExperiment } from "react-icons/ai";
-import { FaCircle, FaSquareXTwitter } from "react-icons/fa6";
+import { FaCircle } from "react-icons/fa6";
 import { MdOutlineSettingsInputComponent } from "react-icons/md";
 import { IoIosWarning } from "react-icons/io";
 
@@ -18,10 +18,8 @@ import EvalSubMenu from "@/app/components/navigation/EvalSubMenu";
 import { CgFileDocument } from "react-icons/cg";
 
 import { CgWebsite } from "react-icons/cg";
-import { IoNewspaperOutline } from "react-icons/io5";
 import { FaGithub } from "react-icons/fa";
 import { FaLinkedin } from "react-icons/fa";
-import { FaYoutube } from "react-icons/fa";
 
 import { RiRobot2Line } from "react-icons/ri";
 
@@ -211,11 +209,11 @@ const SidebarComponent: React.FC = () => {
               <DropdownMenuTrigger asChild>
                 <SidebarMenuButton>
                   <img
-                    src={`${public_path}weaviate-logo.svg`}
-                    alt="Weaviate"
-                    className="w-4 h-4"
+                    src={`${public_path}hva-logo.png`}
+                    alt="Hogeschool van Amsterdam"
+                    className="h-6 w-auto"
                   />
-                  <p>Powered by Weaviate</p>
+                  <p>HvA</p>
                 </SidebarMenuButton>
               </DropdownMenuTrigger>
               <DropdownMenuContent
@@ -223,56 +221,26 @@ const SidebarComponent: React.FC = () => {
                 className="w-[--radix-popper-anchor-width]"
               >
                 <DropdownMenuItem
-                  onClick={() => openNewTab("https://weaviate.io/")}
+                  onClick={() => openNewTab("https://www.hva.nl/")}
                 >
                   <CgWebsite />
-                  <span>Website</span>
+                  <span>HvA Website</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
-                    openNewTab("https://weaviate.io/product/query-agent")
+                    openNewTab("https://www.hva.nl/samenwerken/labs/maintenance-lab")
                   }
                 >
                   <RiRobot2Line />
-                  <span>Weaviate Query Agent</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => openNewTab("https://newsletter.weaviate.io/")}
-                >
-                  <IoNewspaperOutline />
-                  <span>Newsletter</span>
+                  <span>Maintenance Lab</span>
                 </DropdownMenuItem>
                 <DropdownMenuItem
                   onClick={() =>
-                    openNewTab("https://github.com/weaviate/weaviate")
-                  }
-                >
-                  <FaGithub />
-                  <span>GitHub</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() =>
-                    openNewTab(
-                      "https://www.linkedin.com/company/weaviate-io/posts/?feedView=all"
-                    )
+                    openNewTab("https://www.linkedin.com/in/stepintoliquid/")
                   }
                 >
                   <FaLinkedin />
-                  <span>LinkedIn</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() => openNewTab("https://x.com/weaviate_io")}
-                >
-                  <FaSquareXTwitter />
-                  <span>X</span>
-                </DropdownMenuItem>
-                <DropdownMenuItem
-                  onClick={() =>
-                    openNewTab("https://www.youtube.com/@Weaviate")
-                  }
-                >
-                  <FaYoutube />
-                  <span>YouTube</span>
+                  <span>Built by Fausto Albers</span>
                 </DropdownMenuItem>
               </DropdownMenuContent>
             </DropdownMenu>
